@@ -352,8 +352,6 @@ pipeline {
 
                                     npm run create_dist -- Release --channel=${CHANNEL} --debug_build=false --official_build=true
 
-                                    #(Get-Content src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat) | % { $_ -replace "10.0.15063.0\\", "" } | Set-Content src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat
-
                                     npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
                             }
