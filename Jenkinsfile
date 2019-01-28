@@ -350,10 +350,10 @@ pipeline {
                                 powershell """
                                     # KEY_CER_PATH2 = "C:\\jenkins\\digicert-key\\digicert.cer"
                                     # KEY_PFX_PATH2 = "C:\\jenkins\\digicert-key\\digicert.pfx"
-                                    KEY_CER_PATH = 'C:\\jenkins\\digicert-key\\digicert.cer'
-                                    KEY_PFX_PATH = 'C:\\jenkins\\digicert-key\\digicert.pfx'
+                                    KEY_CER_PATH='C:\\jenkins\\digicert-key\\digicert.cer'
+                                    KEY_PFX_PATH='C:\\jenkins\\digicert-key\\digicert.pfx'
                                     
-                                    Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
+                                    KEY_PFX_PATH='C:\\jenkins\\digicert-key\\digicert.pfx'; Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
 
                                     npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
