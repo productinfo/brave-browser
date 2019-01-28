@@ -241,7 +241,7 @@ pipeline {
                 //     }
                 // }
                 stage("windows-x64") {
-                    agent { label "windows-ci" }
+                    agent { label "windows-temp" }
                     environment {
                         GIT_CACHE_PATH = "$USERPROFILE\\cache"
                         SCCACHE_BUCKET = 'sccache-brave-browser-win'
