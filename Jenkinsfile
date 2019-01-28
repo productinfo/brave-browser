@@ -245,7 +245,7 @@ pipeline {
                     environment {
                         GIT_CACHE_PATH = "$USERPROFILE\\cache"
                         SCCACHE_BUCKET = 'sccache-brave-browser-win'
-                        PATH = "$PATH;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17134.0\\x64\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\Remote Debugger\\x64"
+                        PATH = "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17134.0\\x64\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\Remote Debugger\\x64;$PATH"
                         SIGNTOOL_ARGS = "sign /t  http://timestamp.verisign.com/scripts/timstamp.dll  /fd sha256 /sm"
                         KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
                         KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
@@ -357,7 +357,7 @@ pipeline {
                                     echo "$PATH"
                                     echo "$env:PATH"
 
-                                    $env:PATH = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x64\;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Remote Debugger\x64;$env:PATH"
+                                    $env:PATH = "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17134.0\\x64\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\Remote Debugger\\x64;$env:PATH"
 
                                     echo "$PATH"
                                     echo "$env:PATH"
