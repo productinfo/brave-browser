@@ -352,7 +352,7 @@ pipeline {
                                 powershell """
                                     Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
 
-                                    $env:KEY_CER_PATH=${KEY_CER_PATH} $env:KEY_PFX_PATH=${KEY_PFX_PATH} npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
+                                    $KEY_CER_PATH=${KEY_CER_PATH}; $KEY_PFX_PATH=${KEY_PFX_PATH}; $env:KEY_CER_PATH=${KEY_CER_PATH}; $env:KEY_PFX_PATH=${KEY_PFX_PATH}; npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
                             }
                             // post {
