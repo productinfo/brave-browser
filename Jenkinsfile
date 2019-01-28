@@ -360,7 +360,7 @@ pipeline {
                                     echo "$KEY_PFX_PATH"
                                     echo "$env:KEY_PFX_PATH"
 
-                                    npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
+                                    KEY_CER_PATH=${KEY_CER_PATH} KEY_PFX_PATH=${KEY_PFX_PATH} npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
                             }
                             // post {
