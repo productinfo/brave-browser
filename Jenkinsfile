@@ -247,12 +247,6 @@ pipeline {
                         SCCACHE_BUCKET = 'sccache-brave-browser-win'
                         PATH = "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17134.0\\x64\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\Remote Debugger\\x64;$PATH"
                         SIGNTOOL_ARGS = "sign /t  http://timestamp.verisign.com/scripts/timstamp.dll  /fd sha256 /sm"
-                        KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
-                        KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
-                        SHA1_CERTIFICATE_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
-                        SHA1_CERTIFICATE_PASSWORD = credentials('digicert-brave-browser-development-certificate')
-                        SHA2_CERTIFICATE_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
-                        SHA2_CERTIFICATE_PASSWORD = credentials('digicert-brave-browser-development-certificate')                        
                         AUTHENTICODE_PASSWORD = credentials('digicert-brave-browser-development-certificate')
                         CERT = "Brave"
                     }
@@ -356,6 +350,10 @@ pipeline {
                                 powershell """
                                     Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
 
+                                    KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
+                                    KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
+                                    # $env:KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
+                                    # $env:KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
                                     npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
                             }
