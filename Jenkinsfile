@@ -249,6 +249,10 @@ pipeline {
                         SIGNTOOL_ARGS = "sign /t  http://timestamp.verisign.com/scripts/timstamp.dll  /fd sha256 /sm"
                         KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
                         KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
+                        SHA1_CERTIFICATE_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
+                        SHA1_CERTIFICATE_PASSWORD = credentials('digicert-brave-browser-development-certificate')
+                        SHA2_CERTIFICATE_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
+                        SHA2_CERTIFICATE_PASSWORD = credentials('digicert-brave-browser-development-certificate')                        
                         AUTHENTICODE_PASSWORD = credentials('digicert-brave-browser-development-certificate')
                         CERT = "Brave"
                     }
@@ -347,12 +351,12 @@ pipeline {
                         // }
                         stage('dist') {
                             steps {
-                                powershell "npm run create_dist -- Release --channel=${CHANNEL} --debug_build=false --official_build=true"
+                                // powershell "npm run create_dist -- Release --channel=${CHANNEL} --debug_build=false --official_build=true"
                                 powershell '(Get-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat") | % { $_ -replace "10.0.15063.0\\", "" } | Set-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat"'
                                 powershell """
                                     Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
 
-                                    $KEY_CER_PATH=${KEY_CER_PATH}; $KEY_PFX_PATH=${KEY_PFX_PATH}; $env:KEY_CER_PATH=${KEY_CER_PATH}; $env:KEY_PFX_PATH=${KEY_PFX_PATH}; npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
+                                    npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
                             }
                             // post {
