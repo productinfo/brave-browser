@@ -347,15 +347,18 @@ pipeline {
                         // }
                         stage('dist') {
                             steps {
-                                echo "$KEY_CER_PATH"
-                                echo "$env:KEY_CER_PATH"
-                                echo "$KEY_PFX_PATH"
-                                echo "$env:KEY_PFX_PATH"
                                 powershell "npm run create_dist -- Release --channel=${CHANNEL} --debug_build=false --official_build=true"
                                 powershell '(Get-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat") | % { $_ -replace "10.0.15063.0\\", "" } | Set-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat"'
                                 powershell """
                                     Set-PSDebug -Trace 2
                                     Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
+
+                                    $env:KEY_CER_PATH=$KEY_CER_PATH
+                                    $env:KEY_PFX_PATH=$KEY_PFX_PATH
+                                    echo "$KEY_CER_PATH"
+                                    echo "$env:KEY_CER_PATH"
+                                    echo "$KEY_PFX_PATH"
+                                    echo "$env:KEY_PFX_PATH"
 
                                     npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
