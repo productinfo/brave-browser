@@ -246,11 +246,11 @@ pipeline {
                         GIT_CACHE_PATH = "$USERPROFILE\\cache"
                         SCCACHE_BUCKET = 'sccache-brave-browser-win'
                         PATH = "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17134.0\\x64\\;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\Remote Debugger\\x64;$PATH"
-                        SIGNTOOL_ARGS = "sign /t  http://timestamp.verisign.com/scripts/timstamp.dll  /fd sha256 /sm"
-                        KEY_CER_PATH = 'C:\jenkins\digicert-key\digicert.cer'
-                        KEY_PFX_PATH = 'C:\jenkins\digicert-key\digicert.pfx'
+                        SIGNTOOL_ARGS = 'sign /t  http://timestamp.verisign.com/scripts/timstamp.dll  /fd sha256 /sm'
+                        KEY_CER_PATH = 'C:\\jenkins\\digicert-key\\digicert.cer'
+                        KEY_PFX_PATH = 'C:\\jenkins\\digicert-key\\digicert.pfx'
                         AUTHENTICODE_PASSWORD = credentials('digicert-brave-browser-development-certificate')
-                        CERT = "Brave"
+                        CERT = 'Brave'
                     }
                     stages {
                         stage('unlock') {
