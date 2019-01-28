@@ -348,10 +348,10 @@ pipeline {
                                 // powershell "npm run create_dist -- Release --channel=${CHANNEL} --debug_build=false --official_build=true"
                                 // powershell '(Get-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat") | % { $_ -replace "10.0.15063.0\\", "" } | Set-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat"'
                                 powershell """
-                                    KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
-                                    KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
-                                    # $env:KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
-                                    # $env:KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
+                                    // KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
+                                    // KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
+                                    $env:KEY_CER_PATH = "C:\\jenkins\\digicert-key\\digicert.cer"
+                                    $env:KEY_PFX_PATH = "C:\\jenkins\\digicert-key\\digicert.pfx"
                                     
                                     Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
 
