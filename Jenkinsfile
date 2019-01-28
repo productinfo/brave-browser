@@ -346,7 +346,7 @@ pipeline {
                         stage('dist') {
                             steps {
                                 // powershell "npm run create_dist -- Release --channel=${CHANNEL} --debug_build=false --official_build=true"
-                                powershell '(Get-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat") | % { $_ -replace "10.0.15063.0\\", "" } | Set-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat"'
+                                powershell '(Get-Content "src\brave\vendor\omaha\omaha\hammer-brave.bat") | % { $_ -replace "10.0.15063.0\", "" } | Set-Content "src\brave\vendor\omaha\omaha\hammer-brave.bat"'
                                 powershell """
                                     Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
 
