@@ -293,20 +293,20 @@ pipeline {
                                 """
                             }
                         }
-                        stage('build') {
-                            steps {
-                                powershell """
-                                    npm config --userconfig=.npmrc set brave_referrals_api_key ${REFERRAL_API_KEY}
-                                    npm config --userconfig=.npmrc set brave_google_api_endpoint https://location.services.mozilla.com/v1/geolocate?key=
-                                    npm config --userconfig=.npmrc set brave_google_api_key ${BRAVE_GOOGLE_API_KEY}
-                                    npm config --userconfig=.npmrc set google_api_endpoint "safebrowsing.brave.com"
-                                    npm config --userconfig=.npmrc set google_api_key "dummytoken"
-                                    # npm config --userconfig=.npmrc set sccache "sccache"
+                        // stage('build') {
+                        //     steps {
+                        //         powershell """
+                        //             npm config --userconfig=.npmrc set brave_referrals_api_key ${REFERRAL_API_KEY}
+                        //             npm config --userconfig=.npmrc set brave_google_api_endpoint https://location.services.mozilla.com/v1/geolocate?key=
+                        //             npm config --userconfig=.npmrc set brave_google_api_key ${BRAVE_GOOGLE_API_KEY}
+                        //             npm config --userconfig=.npmrc set google_api_endpoint "safebrowsing.brave.com"
+                        //             npm config --userconfig=.npmrc set google_api_key "dummytoken"
+                        //             # npm config --userconfig=.npmrc set sccache "sccache"
 
-                                    npm run build -- Release --channel=${CHANNEL} --debug_build=false --official_build=true
-                                """
-                            }
-                        }
+                        //             npm run build -- Release --channel=${CHANNEL} --debug_build=false --official_build=true
+                        //         """
+                        //     }
+                        // }
                         // stage('test-security') {
                         //     steps {
                         //         script {
@@ -347,11 +347,15 @@ pipeline {
                         // }
                         stage('dist') {
                             steps {
+                                echo "$KEY_CER_PATH"
+                                echo "$env:KEY_CER_PATH"
+                                echo "$KEY_PFX_PATH"
+                                echo "$env:KEY_PFX_PATH"
                                 powershell "npm run create_dist -- Release --channel=${CHANNEL} --debug_build=false --official_build=true"
                                 powershell '(Get-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat") | % { $_ -replace "10.0.15063.0\\", "" } | Set-Content "src\\brave\\vendor\\omaha\\omaha\\hammer-brave.bat"'
                                 powershell """
                                     Set-PSDebug -Trace 2
-                                    Import-PfxCertificate -FilePath "C:\\jenkins\\digicert-key\\digicert.pfx" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
+                                    Import-PfxCertificate -FilePath "${KEY_PFX_PATH}" -CertStoreLocation "Cert:\\LocalMachine\\My" -Verbose -Password (ConvertTo-SecureString -String "${AUTHENTICODE_PASSWORD}" -Force -AsPlaintext)
 
                                     npm run create_dist -- Release --channel=${CHANNEL} --build_omaha --tag_ap=x64-dev --target_arch=x64 --debug_build=false --official_build=true
                                 """
